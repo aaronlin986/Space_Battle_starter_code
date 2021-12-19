@@ -7,43 +7,32 @@
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="bodyContainer">
-
-        <div class="mainCharacterView left" >
-                <div class="nameBox">USS Schwarzenegger</div>
-                <div class="playerImage"></div>
-                <div class="playerStats">
-
+        <div class="mainCharacterView" id="left">
+            <div class="nameBox">USS Schwarzenegger</div>
+            <div id="playerImage"></div>
+            <div id="playerStats">
                 Hull : 15 <br>
                 FirePower : 5 <br>
                 Accuracy : .7 <br>
-
-z
-
-                </div>
-
+            </div>
         </div>
-
-
-        <div class="mainCharacterView right">
-           
+        <div id='button-container'>
+            <button id='startButton' onclick="start()">START GAME</button>
+        </div>
+        <div class="mainCharacterView" id="right">
             <div class="nameBox">Enemy</div>
             <div class="enemyImage"></div>
-                <div class="enemyStats">
-                    Hull : 6 <br>
-                    FirePower : 3 <br>
-                    Accuracy : .6 <br>
-    
-    
-                </div>
-            
+            <div class="enemyStats">
+                Hull : 6 <br>
+                FirePower : 3 <br>
+                Accuracy : .6 <br>
+            </div>
         </div>
-
-
-    <script src="app.js"></script>
+    <script src="index.js"></script>
 </body>
 </html>
