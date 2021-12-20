@@ -1,10 +1,13 @@
+*{
+    font-family: 'Share Tech Mono', monospace;
+}
+
 .bodyContainer{
     display: flex;
     justify-content: space-between;
     height: 100vh;
     width: 100vw;
     margin: 0 auto;
-    font-family: 'Share Tech Mono', monospace;
     background-size: 100%;
     background-color: black;
     color: white;
@@ -59,29 +62,109 @@
     box-shadow: 0px 0px 20px 10px white;
 }
 
-#button-container{
+#middle-container{
     position: relative;
-    top: 50%;
     display: flex;
-    justify-content: center;
-    width: 15vw;
-    height: 15vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 30vw;
+    height: 100vh;
+}
+
+#name-container{
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    opacity: 1;
+    transition: opacity 1s ease;
+}
+
+#name{
+    background-color: black;
+    border-radius: 2%;
+    color: white;
+    height: 40px;
+    font-size: 40px;
+    border: 2px outset gray;
+    text-align: center;
+}
+
+#name:focus{
+    box-shadow: 0px 0px 20px 5px white;
+}
+
+#result-container{
+    height: 300px;
+    display: none;
+}
+
+#result-container *{
+    margin-top: 20px;
+    color: #00f400;
+    font-size: 1em;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+
+#result{
+    margin-bottom: 50px;
+    color: #00f400;
+    text-shadow: 3px 3px 12px #00f400;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    font-size: 2.5em;
+}
+
+#enemiesDefeated{
+}
+
+#enemiesRemain{
+
+}
+
+#successHits{
+
+}
+
+#hits{
+
+}
+
+@keyframes pop{
+    from {
+        box-shadow: 0px 0px 20px -5px;
+    }
+    to{
+        box-shadow: 0px 0px 20px 10px;
+    }
 }
 
 #startButton{
+    position: relative;
+    bottom: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 10vw;
     height: 10vh;
-    font-family: 'Share Tech Mono', monospace;
     background-color: black;
     color: white;
-    border: 1px solidblack;
     border-radius: 2%;
-    box-shadow: 0px 0px 20px 10px white;
     font-size: 1.5em;
     cursor: pointer;
+    animation-name: pop;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate-reverse;
+    transition: bottom 0.5s ease;
+}
+
+#startButton:hover{
+    color: #00f400;
+    animation-play-state: paused;
 }
 
 #playerStats{
@@ -116,7 +199,6 @@
     width: 15vw;
     height: 15vh;
     text-align: center;
-    font-family: 'Share Tech Mono', monospace;
     font-size: 1.5em;
     box-shadow: 0px 0px 20px 10px white;
 }
