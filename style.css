@@ -25,18 +25,24 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    animation-duration: 3s;
+    animation-iteration-count: 1;
 }
 
 #left{
     position: relative;
     left: -100%;
-    transition: left 0.5s ease;
+    transition: left 0.5s ease; 
+    animation-duration: 0.5s;
+    animation-iteration-count: 1;
 }
 
 #right{
     position: relative;
     right: -100%;
     transition: right 0.5s ease;
+    animation-duration: 0.5s;
+    animation-iteration-count: 1;
 }
 
 .nameBox{
@@ -96,6 +102,72 @@
     box-shadow: 0px 0px 20px 5px white;
 }
 
+#command-container{ 
+    height: 200px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#command-head{
+    opacity: 0;
+    transition: opacity 1.5s ease;
+    text-align: center;
+}
+
+#command{
+    display: none;
+    width: 45%;
+    background-color: black;
+    border-radius: 2%;
+    color: white;
+    height: 40px;
+    font-size: 40px;
+    border: 2px outset gray;
+    text-align: center;
+}
+
+@keyframes shake{
+    10%, 90% {
+        transform: translateX(-1px);
+    }
+    
+    20%, 80% {
+        transform: translateX(2px);
+    }
+
+    30%, 50%, 70% {
+        transform: translateX(-4px);
+    }
+
+    40%, 60% {
+        transform: translateX(4px);
+    }
+}
+
+@keyframes shakeMore{
+    10%, 90% {
+        transform: translateX(-10px);
+    }
+    
+    20%, 80% {
+        transform: translateX(11px);
+    }
+
+    30%, 50%, 70% {
+        transform: translateX(-13px);
+    }
+
+    40%, 60% {
+        transform: translateX(13px);
+    }
+}
+
+#command:focus {
+    box-shadow: 0px 0px 20px 5px white;
+}
+
 #result-container{
     height: 300px;
     display: none;
@@ -103,7 +175,6 @@
 
 #result-container *{
     margin-top: 20px;
-    color: #00f400;
     font-size: 1em;
     opacity: 0;
     transition: opacity 1.5s ease;
@@ -111,8 +182,6 @@
 
 #result{
     margin-bottom: 50px;
-    color: #00f400;
-    text-shadow: 3px 3px 12px #00f400;
     opacity: 0;
     transition: opacity 0.5s ease;
     font-size: 2.5em;
@@ -180,7 +249,7 @@
     border-radius: 2%;
 }
 
-.enemyImage{
+#enemyImage{
     border: 1px solidblack;
     width: 30vw;
     height: 35vh;
@@ -191,7 +260,7 @@
     box-shadow: 0px 0px 20px 10px white;
 }
 
-.enemyStats{
+#enemyStats{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -201,4 +270,22 @@
     text-align: center;
     font-size: 1.5em;
     box-shadow: 0px 0px 20px 10px white;
+}
+
+@keyframes death{
+    10%, 70% {
+        opacity: 0.8;
+    }
+    
+    20%, 60%, 80% {
+        opacity: 0.5;
+    }
+
+    30%, 50%, 90% {
+        opacity: 0.3;
+    }
+
+    40%, 100%{
+        opacity: 0.1;
+    }
 }

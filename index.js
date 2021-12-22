@@ -1,121 +1,263 @@
-let myHealth = 20;
-let myPower = 5;
-let myAccuracy = 0.7;
-let enemyHealth;
-let enemyPower;
-let enemyAccuracy;
+let player = {
+    id: 'left',
+    health: 1,
+    power: 5,
+    accuracy: 1
+};
+
+let enemy = {
+    id: 'right',
+    health: 0,
+    power: 0,
+    accuracy: 0
+};
+
+let roundsCompleted = 0;
 let enemies = 6;
 
+function updateStats(){
+    document.getElementById('playerStats').textContent = `Hull : ${player.health}\n Firepower : ${player.power}\n Accuracy : ${player.accuracy}`;
+    document.getElementById('enemyStats').textContent = `Hull : ${enemy.health}\n Firepower : ${enemy.power}\n Accuracy : ${enemy.accuracy}`;
+}
+//VS , round transition
+function reinitialize(){
+    document.getElementById('result').style.opacity = 0;
+    document.getElementById('enemiesDefeated').style.opacity = 0;
+    document.getElementById('enemiesRemain').style.opacity = 0;
+    document.getElementById('successHits').style.opacity = 0;
+    document.getElementById('hits').style.opacity = 0;
+
+    // player.health = 20;
+    // player.power = 5;
+    // player.accuracy = 0.7;
+    // enemy.health = Math.floor(Math.random() * 4) + 3;
+    enemy.health = 1;
+    enemy.power = Math.floor(Math.random() * 3) + 2;
+    // enemy.accuracy = (Math.floor(Math.random() * 3) + 6) / 10;
+    enemy.accuracy = 1;
+
+    updateStats();
+}
+
 function start(){
+    reinitialize();
+    document.getElementById('result-container').style.display = 'none';
     document.getElementById('startButton').style.bottom = '-150%';
     document.getElementById('name-container').style.opacity = 0;
-    setTimeout(() => {
+    document.getElementById('command-head').style.opacity = 0;
+    document.getElementById('command').style.display = 'none';
+    setTimeout(() => {    
+        document.getElementById('command-container').style.display = 'flex';
+        document.getElementById('startButton').style.display = 'none';
         document.getElementById('name-container').style.display = 'none';
         document.getElementById('left').style.left = '0';
     }, 1000);
     setTimeout(() => {    
         document.getElementById('right').style.right = '0';
-        setTimeout(() => round(), 2000);
+        setTimeout(() => {
+            initializeTurn();
+        }, 1500);
     }, 2000);
 }
 
-function endGame(){
+function endGame(val){
+    let status = val > 0 ? 'V I C T O R Y' : 'D E F E A T';
+    let color = val > 0 ? '#00f400' : '#f40000';
+    document.getElementById('command-container').style.display = 'none';
     document.getElementById('result-container').style.display = 'block';
+    document.getElementById('startButton').style.display = 'flex';
     setTimeout(() => document.getElementById('left').style.left = '-100%', 500);
     setTimeout(() => {
         document.getElementById('right').style.right = '-100%';
     }, 1250);
     setTimeout(() => {
-        document.getElementById('result').textContent = 'V I C T O R Y';
-        document.getElementById('result').style.opacity = 1;
-        document.getElementById('result').style.color = '#00f400';
-        document.getElementById('result').style.textShadow = '3px 3px 12px #00f400';
+        let result = document.getElementById('result');
+        result.textContent = status;
+        result.style.opacity = 1;
+        result.style.color = color;
+        result.style.textShadow = `3px 3px 12px ${color}`;
     }, 2000);
     setTimeout(() => {
-        document.getElementById('enemiesDefeated').textContent = `Enemies Defeated : ${5}`;
-        document.getElementById('enemiesDefeated').style.opacity = 1;
+        let enemiesDefeated = document.getElementById('enemiesDefeated');
+        enemiesDefeated.textContent = `Enemies Defeated : ${5}`;
+        enemiesDefeated.style.opacity = 1;
+        enemiesDefeated.style.color = color;
     }, 3000);
     setTimeout(() => {
-        document.getElementById('enemiesRemain').textContent = `Remaining Enemies : ${1}`;
-        document.getElementById('enemiesRemain').style.opacity = 1;
+        let enemiesRemain = document.getElementById('enemiesRemain');
+        enemiesRemain.textContent = `Remaining Enemies : ${1}`;
+        enemiesRemain.style.opacity = 1;
+        enemiesRemain.style.color = color;
     }, 3250);
     setTimeout(() => {
-        document.getElementById('successHits').textContent = `Successful Hits : ${15}`;
-        document.getElementById('successHits').style.opacity = 1;
+        let successHits = document.getElementById('successHits');
+        successHits.textContent = `Successful Hits : ${15}`;
+        successHits.style.opacity = 1;
+        successHits.style.color = color;
     }, 3500);
     setTimeout(() => {
-        document.getElementById('hits').textContent = `Total Attacks : ${20}`;
-        document.getElementById('hits').style.opacity = 1;
+        let hits = document.getElementById('hits')
+        hits.textContent = `Total Attacks : ${20}`;
+        hits.style.opacity = 1;
+        hits.style.color = color;
     }, 3750);
     setTimeout(() => {
         document.getElementById('startButton').textContent = 'PLAY AGAIN';
         document.getElementById('startButton').style.bottom = 0;
+        document.getElementById('startButton').onclick = (() => window.location.reload());
     }, 5000)
 }
 
-function round(){
-    enemyHealth = Math.floor(Math.random() * 4) + 3;
-    enemyPower = Math.floor(Math.random() * 3) + 2;
-    enemyAccuracy = Math.floor(Math.random() * 3) + 6;
-    while(1){
-        enemyHealth = myTurn(enemyHealth, myPower, myAccuracy);
-        healthCheck(myHealth, enemyHealth);
-        myHealth = enemyTurn(myHealth, enemyPower, enemyAccuracy);
-        healthCheck(myHealth, enemyHealth);
-    }
+function initializeTurn(){
+    let commandHeader = document.getElementById('command-head');
+    commandHeader.style.visibility = 'visible';
+    commandHeader.style.color = 'white';
+    commandHeader.textContent = 'Attack or Retreat?';
+    commandHeader.style.opacity = 1;
+    setTimeout(() => {
+        let command = document.getElementById('command');
+        command.placeholder = '';
+        command.style.backgroundColor = 'black'; 
+        command.style.display = 'block';
+        command.disabled = false;     
+        command.value = '';
+    }, 1500);
 }
 
-function myTurn(enHealth, power, acc){  
-    let action = prompt(`[Your Health: ${myHealth}] [Enemy Health: ${enemyHealth}] [Enemies Remaining: ${enemies}]\nDo you want to 'attack' or 'retreat'?`);
-    if(action != null){
-        action = action.toLowerCase();
-        if(action == 'attack'){
-            let result = attack(enHealth, power, acc);
-            result == enHealth ? alert('Attack missed!') : alert('Attack successful!');
-            return result;
-        }
-        else if(action == 'retreat'){
-            if(confirm("Are you sure you want to retreat?")){
-                //End game function
-                endGame();
-            }
-            return myTurn(enHeath, power, acc);
+function myTurn(input){  
+    input = input.toLowerCase();
+    if(input == 'attack'){
+        let commandHeader = document.getElementById('command-head');
+        let command = document.getElementById('command');
+        if(attack(enemy, player) == 1){
+            commandHeader.textContent = 'Attack Successful!';
+            commandHeader.style.color = '#00f400';
         }
         else{
-            alert('Invalid action.');
-            return myTurn(enHealth, power, acc);;
+            commandHeader.textContent = 'Attack Missed!';
+            commandHeader.style.color = 'white';
         }
+        command.disabled = true;
+        command.style.backgroundColor = 'rgba(255,255,255,0.15)';
     }
-    if(confirm("Are you sure you want to end the game?")){
-        //End game function
-        endGame();
+    else if(input == 'retreat'){
+        document.getElementById('command-head').textContent = 'Are you sure you want to retreat?';
+        document.getElementById('command').placeholder = 'Yes/No';
+        document.getElementById('command').value = '';
     }
-    return myTurn(enHealth, power, acc);
-}
-
-function enemyTurn(health, enPower, enAcc){
-    let result = attack(health, enPower, enAcc);
-    result == health ? alert('Enemy attack missed!') : alert('Enemy attack successful!');
-    return result;
-}
-
-function attack(enHealth, power, acc){
-    if(Math.random() < acc){
-        return enHealth - power;
+    else if(input == 'yes'){
+        player.health = 0;
+    }
+    else if(input == 'no'){
+        document.getElementById('command-head').textContent = 'Attack or Retreat?';
+        document.getElementById('command').placeholder = '';
+        document.getElementById('command').value = '';
     }
     else{
-        return enHealth;
+        document.getElementById('command').style.animationName = "shake";
+        setTimeout(() => document.getElementById('command').style.animationName = "", 500);
     }
 }
 
-function healthCheck(health, enHealth){
-    if(health <= 0){
-        return -1; //trigger loss function
-    }
-    else if(enHealth <= 0){
-        return 1;   //trigger win function
+function enemyTurn(){
+    let commandHeader = document.getElementById('command-head');
+    if(attack(player, enemy) == 1){
+        commandHeader.textContent = 'Enemy Attack Successful!';
     }
     else{
-        return 0; //continue
+        commandHeader.textContent = 'Enemy Attack Missed!';
+        commandHeader.style.color = 'white';
+    }
+}
+
+function newRound(){
+    document.getElementById('command-head').style.visibility = 'hidden';
+    document.getElementById('command-head').style.opacity = 0;
+    document.getElementById('right').style.right = '-100%';
+    setTimeout(() => {
+        document.getElementById('right').style.opacity = 1;
+        document.getElementById('right').style.right = 0;
+        reinitialize();
+        setTimeout(() => {
+            initializeTurn();
+        }, 2000);
+    }, 2000);
+}
+
+function attack(player1, player2){
+    if(Math.random() < player2.accuracy){
+        player1.health -= player2.power;
+        document.querySelectorAll(`#${player1.id} div`).forEach((e) => e.style.boxShadow = "0px 0px 20px 10px red");
+        document.getElementById(player1.id).style.animationName = 'shakeMore';
+        setTimeout(() => {
+            document.querySelectorAll(`#${player1.id} div`).forEach((e) => e.style.boxShadow = "0px 0px 20px 10px white");
+            document.getElementById(player1.id).style.animationName = "";
+        }, 500);
+        updateStats();
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
+
+function healthCheck(){
+    if(player.health <= 0){
+        setTimeout(() => {
+            let plyr = document.getElementById('left');
+            plyr.style.animationName = 'death';
+            plyr.style.opacity = 0;
+            document.getElementById('command').style.display = 'none';
+            document.getElementById('command-head').textContent = "You've Been Defeated!";
+            setTimeout(() => {
+                document.getElementById('command-head').style.visibility = 'hidden';
+                document.getElementById('command-head').style.opacity = 0;
+                setTimeout(() => endGame(0), 1000);
+            }, 2000);
+            return 0;
+        }, 2000);
+    }
+    else if(enemy.health <= 0){
+        setTimeout(() => {
+            let en = document.getElementById('right');
+            en.style.animationName = 'death';
+            en.style.opacity = 0;
+            document.getElementById('command').style.display = 'none';
+            document.getElementById('command-head').textContent = 'Enemy Defeated!';
+            if(++roundsCompleted == 2){
+                setTimeout(() => {
+                    document.getElementById('command-head').style.visibility = 'hidden';
+                    document.getElementById('command-head').style.opacity = 0;
+                    setTimeout(() => endGame(1), 1000);
+                }, 2000);
+            }
+            else{
+                setTimeout(() => newRound(), 2000);
+            }
+            return 1; 
+        }, 2000); 
+    }
+    else{
+        return -1;
+    }
+}
+
+document.getElementById('command').onkeyup = (e) => {
+    if(e.key === 'Enter'){
+        myTurn(document.getElementById('command').value);
+        if(healthCheck() < 0){
+            setTimeout(() => {
+                let commandHeader = document.getElementById('command-head');
+                commandHeader.style.color = '#f40000';
+                commandHeader.textContent = 'Enemy Turn';
+                document.getElementById('command').style.display = 'none';
+                setTimeout(() => {
+                    enemyTurn();
+                    if(healthCheck() < 0){
+                        setTimeout(() => initializeTurn(), 5000);
+                    }
+                }, 2000);
+            }, 2000);
+        }
     }
 }

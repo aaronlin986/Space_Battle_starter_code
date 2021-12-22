@@ -16,9 +16,6 @@
             <div class="nameBox">USS Schwarzenegger</div>
             <div id="playerImage"></div>
             <div id="playerStats">
-                Hull : 15 <br>
-                FirePower : 5 <br>
-                Accuracy : .7 <br>
             </div>
         </div>
         <div id='middle-container'> 
@@ -33,15 +30,16 @@
                 <p id='successHits'></p>
                 <p id='hits'></p>
             </div>
+            <div id='command-container'>
+                <h1 id='command-head'>Attack or Retreat?</h1>
+                <input type='text' id='command' autocomplete="off">
+            </div>
             <button id='startButton' onclick="start()">START GAME</button>
         </div>
         <div class="mainCharacterView" id="right">
             <div class="nameBox">Enemy</div>
-            <div class="enemyImage"></div>
-            <div class="enemyStats">
-                Hull : 6 <br>
-                FirePower : 3 <br>
-                Accuracy : .6 <br>
+            <div id="enemyImage"></div>
+            <div id="enemyStats">
             </div>
         </div>
     </div>
