@@ -126,6 +126,8 @@
     font-size: 40px;
     border: 2px outset gray;
     text-align: center;
+    animation-duration: 0.5s;
+    animation-iteration-count: 1;
 }
 
 @keyframes shake{
@@ -177,7 +179,8 @@
     margin-top: 20px;
     font-size: 1em;
     opacity: 0;
-    transition: opacity 1.5s ease;
+    transition: opacity 0.5s ease;
+    text-align: center;
 }
 
 #result{
@@ -187,19 +190,12 @@
     font-size: 2.5em;
 }
 
-#enemiesDefeated{
-}
-
-#enemiesRemain{
-
-}
-
-#successHits{
-
-}
-
-#hits{
-
+#percent{
+    text-align: center;
+    opacity: 0;
+    font-size: 3em;
+    margin-top: 50px;
+    transition: opacity 1s ease;
 }
 
 @keyframes pop{
@@ -233,7 +229,6 @@
 
 #startButton:hover{
     color: #00f400;
-    animation-play-state: paused;
 }
 
 #playerStats{
